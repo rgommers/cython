@@ -562,6 +562,7 @@ static PyObject *__pyx_FusedFunction_New(PyTypeObject *type,
                                          PyObject *self, PyObject *module,
                                          PyObject *code);
 
+static int __pyx_FusedFunction_clear(__pyx_FusedFunctionObject *self);
 static PyTypeObject *__pyx_FusedFunctionType = NULL;
 static int __pyx_FusedFunction_init(void);
 
@@ -587,8 +588,7 @@ __pyx_FusedFunction_New(PyTypeObject *type, PyMethodDef *ml, int flags, PyObject
 }
 
 static void __pyx_FusedFunction_dealloc(__pyx_FusedFunctionObject *self) {
-    Py_XDECREF(self->__signatures__);
-    /* __pyx_CyFunction_dealloc((__pyx_CyFunctionObject *) m); */
+    __pyx_FusedFunction_clear(self);
     __pyx_FusedFunctionType->tp_free((PyObject *) self);
 }
 

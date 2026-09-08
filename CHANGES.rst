@@ -28,6 +28,9 @@ Bugs fixed
 * A C compiler warning in MSVC was resolved.
   (Github issue :issue:`7911`)
 
+* Package and versioned ``.pxd`` file paths in generated C code are now independent
+  of the build environment location, improving build reproducibility.
+
 
 3.3.0 (2026-08-22)
 ==================

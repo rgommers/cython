@@ -8,6 +8,9 @@ Cython Changelog
 Bugs fixed
 ----------
 
+* Shared utility module generation now orders utility files deterministically,
+  making the generated C code independent of filesystem directory order.
+
 * Generating a shared utility module no longer embeds its destination directory
   in the generated C code, making the output reproducible across build directories.
   This is a follow-up fix to the one in 3.3.0, for ``--generate-shared=/path/to/_{sharedname}.c``.

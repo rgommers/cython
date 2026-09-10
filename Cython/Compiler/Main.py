@@ -322,6 +322,23 @@ class Context:
             error(pos, "'%s' not found" % filename)
         return path
 
+    def find_include_file_source(self, filename, pos):
+        path = self.find_include_file(filename, pos)
+        if not path:
+            return None
+        if os.path.isabs(filename):
+            return FileSourceDescriptor(path)
+
+        # Local includes inherit the including source's logical directory.
+        # Otherwise, the name is relative to the include search directory.
+        source = pos[0]
+        local_path = os.path.join(os.path.dirname(source.filename), filename)
+        if os.path.normcase(os.path.abspath(path)) == os.path.normcase(os.path.abspath(local_path)):
+            description = os.path.join(os.path.dirname(source.path_description), filename)
+        else:
+            description = filename
+        return FileSourceDescriptor(path, os.path.normpath(description))
+
     def search_include_directories(self, qualified_name,
                                    suffix=None, source_pos=None, include=False, sys_path=False, source_file_path=None):
         include_dirs = self.include_directories

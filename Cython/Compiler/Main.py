@@ -333,7 +333,7 @@ class Context:
         # Otherwise, the name is relative to the include search directory.
         source = pos[0]
         local_path = os.path.join(os.path.dirname(source.filename), filename)
-        if os.path.normcase(os.path.abspath(path)) == os.path.normcase(os.path.abspath(local_path)):
+        if path == local_path:
             description = os.path.join(os.path.dirname(source.path_description), filename)
         else:
             description = filename

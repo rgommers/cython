@@ -227,8 +227,7 @@ class FileSourceDescriptor(SourceDescriptor):
 
     def get_relative_path(self) -> Path:
         file_path = Path(self.file_path)
-        # An explicit logical name also takes precedence for files inside cwd.
-        if self.path_description != self.filename or file_path.is_absolute():
+        if file_path.is_absolute():
             return Path(self.get_description())
         else:
             return file_path
@@ -251,6 +250,11 @@ class FileSourceDescriptor(SourceDescriptor):
 
     def __repr__(self):
         return "<FileSourceDescriptor:%s>" % self.filename
+
+
+class IncludeFileSourceDescriptor(FileSourceDescriptor):
+    def get_relative_path(self) -> Path:
+        return Path(self.get_description())
 
 
 class StringSourceDescriptor(SourceDescriptor):

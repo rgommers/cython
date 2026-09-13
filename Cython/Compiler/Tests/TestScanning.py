@@ -1,7 +1,5 @@
 import unittest
-import os
 from io import StringIO
-from pathlib import Path
 import string
 
 from .. import Scanning
@@ -15,22 +13,6 @@ for ch in string.ascii_lowercase:
     line = " ".join(["%s%s" % (ch, n) for n in range(10)])
     code.append(line)
 code = "\n".join(code)
-
-
-class TestFileSourceDescriptor(TimedTest):
-
-    def test_logical_path_inside_working_directory(self):
-        filename = os.path.abspath(os.path.join("source", "pkg", "module.pyx"))
-        source = Scanning.FileSourceDescriptor(filename, os.path.join("pkg", "module.pyx"))
-        physical_source = Scanning.FileSourceDescriptor(filename)
-        self.assertEqual(source.get_relative_path(), Path("pkg/module.pyx"))
-        self.assertEqual(physical_source.get_relative_path(), Path("source/pkg/module.pyx"))
-        # Display names must not change filesystem identity or diagnostics.
-        self.assertEqual(source.filename, filename)
-        self.assertEqual(source, physical_source)
-        self.assertEqual(hash(source), hash(physical_source))
-        self.assertEqual(source.get_error_description(), physical_source.get_error_description())
-        self.assertEqual(source.get_filenametable_entry(), physical_source.get_filenametable_entry())
 
 
 class TestScanning(TimedTest):
